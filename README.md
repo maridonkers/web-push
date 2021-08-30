@@ -10,9 +10,7 @@ Guides to using Web Push API in browsers can be found on [Mozilla's](https://dev
     stack build
     stack --docker-network=bridge --docker-run-args='--publish=3000:3000' exec web-push-example
     
-    (Under Linux the example appears to work only with chromium; not firefox.)
-
-Then access localhost:3000 from a browser. Keep the browser console open to check if there are errors. For use with docker, the above command requires [stack](https://docs.haskellstack.org/en/stable/README/) 2.4 or above.
+Then access localhost:3000 from a browser. Keep the **browser console** (via F12) open to check if there are errors. For use with docker, the above command requires [stack](https://docs.haskellstack.org/en/stable/README/) 2.4 or above.
 
 For production use, store a set of VAPID keys securely and use them for all push notification subscriptions and messages; public key will have to be exposed to client's browser when subscribing to push notifications, but private key must be kept secret and used when generating push notifications on the server. If VAPID keys are re-generated, all push notifications will require re-subscriptions. Also save the latest subscription details such as endpoint from user's browser session securely in the database and use them to send push notifications to the user later.
 
