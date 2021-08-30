@@ -9,6 +9,8 @@ Guides to using Web Push API in browsers can be found on [Mozilla's](https://dev
     cd example
     stack build
     stack --docker-network=bridge --docker-run-args='--publish=3000:3000' exec web-push-example
+    
+    (Under Linux the example appears to work only with chromium; not firefox.)
 
 Then access localhost:3000 from a browser. Keep the browser console open to check if there are errors. For use with docker, the above command requires [stack](https://docs.haskellstack.org/en/stable/README/) 2.4 or above.
 
