@@ -1,17 +1,20 @@
-{-# LANGUAGE MultiParamTypeClasses, OverloadedStrings, QuasiQuotes, TemplateHaskell, TypeFamilies, ViewPatterns #-}
+{-# LANGUAGE MultiParamTypeClasses, OverloadedStrings, QuasiQuotes, TemplateHaskell, TypeFamilies, ViewPatterns, DeriveGeneric, DeriveAnyClass #-}
 
 module Main where
 
+import GHC.Generics
 import Yesod
 import qualified Web.WebPush as WP
 import Data.Time (getCurrentTime, addUTCTime)
 import Network.HTTP.Conduit (newManager, Manager(..), tlsManagerSettings)
+import qualified Data.Text as T
 import Text.Hamlet (hamletFile)
 import Text.Julius (juliusFile)
 import Control.Lens ((.~), (&))
 import Data.Text (pack, Text)
 import Control.Monad.IO.Class (liftIO)
-import Data.Aeson (toJSON)
+import qualified Data.Aeson as A
+-- import Data.Aeson (toJSON)
 
 data PushNotificationMessage = PushNotificationMessage
     { title :: T.Text
@@ -51,11 +54,11 @@ postNotifyR = do
         FormFailure e -> return $ object [("success" .= False), ("errors" .= e)]
         FormMissing -> return $ object [("success" .= False), ("errors" .= ( "The form was not complete." :: Text) )]
         FormSuccess (endpoint, auth, p256dh, text) -> do
-            let message = WP.PushNotificationMessage { WP.title = "Web Push Test"
-                                                     , WP.body = text
-                                                     , WP.icon = ""
-                                                     , WP.url = "http://localhost:3000"
-                                                     , WP.tag = pack $ show time
+            let message = PushNotificationMessage { title = "Web Push Test"
+                                                     , body = text
+                                                     , icon = ""
+                                                     , url = "http://localhost:3000"
+                                                     , tag = pack $ show time
                                                      }
                 pushDetails = (WP.mkPushNotification endpoint p256dh auth)
                                 & WP.pushExpireInSeconds .~ 60 * 60 * 24

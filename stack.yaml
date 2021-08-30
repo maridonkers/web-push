@@ -3,6 +3,9 @@ resolver: lts-17.9
 docker:
     enable: true
 
+nix:
+    enable: false
+
 packages:
 - '.'
 
